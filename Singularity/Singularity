@@ -33,6 +33,7 @@ From: python:3.6-stretch
     && apt install apache2 git -y \
     && pip install --upgrade pip \
     && pip install --upgrade django \
+    && rm -rf /opt/jjmweb \
     && mkdir -p /opt/jjmweb \
     && git clone https://github.com/mfschmidt/jjmweb.git /opt/jjmweb/
 
