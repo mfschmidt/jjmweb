@@ -8,4 +8,6 @@
 #SBATCH -o $HOME/slurmlogs/jjmweb.%N.%j.out  # STDOUT
 #SBATCH -e $HOME/slurmlogs/jjmweb.%N.%j.err  # STDERR
 
+mkdir -p $HOME/slurmlogs
+
 singularity run --bind /opt/jjmdb /home/webrunner/jjmweb.simg
