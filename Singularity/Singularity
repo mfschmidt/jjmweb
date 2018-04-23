@@ -1,0 +1,47 @@
+Bootstrap: docker
+From: python:3.6-stretch
+
+%help
+    This container uses a Debian 9 "Stretch" foundation with python 3.6 to host a
+    django-powered web site. This site is designed to provide documentation for
+    users of the jjm* cluster it runs on.
+
+    Typical usage:
+
+        $ singularity run --bind /home/mike/jjmweb/db:/opt/jjmweb/db jjmweb.simg
+
+
+%labels
+    Maintainer Mike Schmidt
+    Version 0.0.3
+
+# Commands in setup are run on the host before running the container.
+%setup
+
+# Files from the host can be copied into the container
+%files
+
+# Environment variables for container run-time
+%environment
+
+# The main setup, happening inside the container
+#    I'd like to use python 3's venv, but singularity doesn't seem to allow "source"ing
+#    Running postgresql requires root, which defeats the singularity concept, so sqlite it is.
+%post
+    apt update \
+    && apt upgrade -y \
+    && apt install apache2 git -y \
+    && pip install --upgrade pip \
+    && pip install --upgrade django \
+    && mkdir -p /opt/jjmweb \
+    && git clone https://github.com/mfschmidt/jjmweb.git /opt/jjmweb/
+
+
+# Run this inside the container, after setup has occurred.
+%runscript
+    echo "____ running jjmweb ____"
+    cd /opt/jjmweb/
+    echo "    using python version $(python --version)"
+    echo "    using pip version    $(pip --version)"
+    echo "    using django version $(python -m django --version)"
+    exec /opt/jjmweb/manage.py runserver 0:8080
