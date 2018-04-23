@@ -16,7 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from . import views
+
 urlpatterns = [
     path('slurm/', include('slurm.urls')),
+    path('', views.index, name="toc"),
+    path('how_to_venv/', views.how_to_venv, name="how_to_venv"),
+    path('how_to_batch/', views.how_to_batch, name="how_to_batch"),
     path('admin/', admin.site.urls),
 ]
