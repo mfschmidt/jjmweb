@@ -37,20 +37,20 @@ def index(request):
         slurm_version = 'SLURM does not appear to be installed.'
     try:
         slurm_config = subprocess.run(
-            ['cat', '/etc/slurm-llnl/slurm.conf', '|', 'grep', '#'], stdout=subprocess.PIPE
+            ['grep', '^[^#;]', '/etc/slurm-llnl/slurm.conf'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
         slurm_config = 'cannot get config file'
-    
+
     # Formulate the html to return (This should be made a template, eventually)
-    response += "<h2>Cluster information</h2>\n"
+    response = "<h2>Cluster information</h2>\n"
     response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
         "sinfo"
     )
     response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
         slurm_info
     )
-    response = "<h2>Current queue</h2>\n"
+    response += "<h2>Current queue</h2>\n"
     response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
         "squeue"
     )
@@ -58,12 +58,12 @@ def index(request):
         slurm_queue
     )
     response += "<h2>Configuration</h2>\n"
-    response += "<div> style="\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "cat /etc/slurm-llnl/slurm.conf"
-    }
-    response += "<div> style="\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
+    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
+        "grep \"^[^#;]\" /etc/slurm-llnl/slurm.conf"
+    )
+    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
         slurm_config
-    }
+    )
     response += "<p>\nVersion: {}</p>\n".format(slurm_version)
     response += "<p>\nDate: {}</p>\n".format(slurm_date)
 
