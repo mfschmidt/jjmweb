@@ -19,7 +19,7 @@ def index(request):
         slurm_date = "not even a date function"
     try:
         slurm_queue = subprocess.run(
-            ['squeue'], stdout=subprocess.PIPE
+            ['squeue', '--array'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
         slurm_queue = ' no squeue found '
@@ -52,7 +52,7 @@ def index(request):
     )
     response += "<h2>Current queue</h2>\n"
     response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "squeue"
+        "squeue --array"
     )
     response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
         slurm_queue
