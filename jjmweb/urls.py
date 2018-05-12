@@ -20,7 +20,7 @@ from . import views
 
 urlpatterns = [
     path('slurm/', include('slurm.urls')),
-    path('/', views.index, name="toc"),
+    path('', views.index, name="toc"),
     path('versions/', views.software_versions, name="versions"),
     path('how_to_venv/', views.how_to_venv, name="how_to_venv"),
     path('how_to_batch/', views.how_to_batch, name="how_to_batch"),
