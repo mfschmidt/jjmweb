@@ -31,6 +31,8 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.43', '192.168.23.241', ]
 # Application definition
 
 INSTALLED_APPS = [
+    'pygest.apps.PygestConfig',
+    'slurm.apps.SlurmConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

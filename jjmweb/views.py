@@ -21,6 +21,8 @@ def index(request):
     response += "<p><a href=\"/versions/\">Current installed software</a></p>\n"
     response += "<h2>Cluster status</h2>\n"
     response += "<p><a href=\"/slurm/\">The current SLURM queue</a></p>\n"
+    response += "<h2>PyGEST</h2>\n"
+    response += "<p><a href=\"/pygest/\">PyGEST coming soon</a></p>\n"
 
     return HttpResponse(response)
 

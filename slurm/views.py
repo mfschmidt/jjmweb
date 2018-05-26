@@ -24,6 +24,12 @@ def index(request):
     except FileNotFoundError:
         slurm_queue = ' no squeue found '
     try:
+        slurm_load = subprocess.run(
+            ['sinfo', '-o', '"%10P %10e %10m %O"'], stdout=subprocess.PIPE
+        ).stdout.decode('utf-8')
+    except FileNotFoundError:
+        slurm_load = 'failed to determine server load'
+    try:
         slurm_info = subprocess.run(
             ['sinfo'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
@@ -49,6 +55,13 @@ def index(request):
     )
     response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
         slurm_info
+    )
+    response += "<h2>Current load</h2>\n"
+    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
+        "sinfo -o \"%10P %10e %10m %O\""
+    )
+    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
+        slurm_load
     )
     response += "<h2>Current queue</h2>\n"
     response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
