@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>SLURM status</h1>
+<p>as of {{ date }}</p>
+
+  {% for key, value in keys.items %}
+    <h3>{{ key }}</h3>
+    <pre><code style="bash">{{ value }}</code></pre>
+  {% endfor %}
+
+  <p>SLURM version {{ version }}</p>
+
+  <p>config file:</p>
+  <pre><code>{{ config }}</code></pre>
+
+{% endblock %}

@@ -1,83 +1,49 @@
-from django.http import HttpResponse
+from django.shortcuts import render
 
 import subprocess
 
 
 def index(request):
-    """
-    :param request:
-    :return: html representing the output of the slurm command
+    """ return a rendered template with current SLURM state information. """
 
-    """
+    context = {'keys': {}}
 
     # Issue the command to the underlying shell, capturing stdout
     try:
-        slurm_date = subprocess.run(
+        context['date'] = subprocess.run(
             ['date'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_date = "not even a date function"
+        context['date'] = "not even a date function"
     try:
-        slurm_queue = subprocess.run(
+        context['keys']['queue'] = subprocess.run(
             ['squeue', '--array'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_queue = ' no squeue found '
+        context['keys']['queue'] = ' no squeue found '
     try:
-        slurm_load = subprocess.run(
+        context['keys']['load'] = subprocess.run(
             ['sinfo', '-o', '"%10P %10e %10m %O"'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_load = 'failed to determine server load'
+        context['keys']['load'] = 'failed to determine server load'
     try:
-        slurm_info = subprocess.run(
+        context['keys']['info'] = subprocess.run(
             ['sinfo'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_info = ' no sinfo found '
+        context['keys']['info'] = ' no sinfo found '
     try:
-        slurm_version = subprocess.run(
+        context['version'] = subprocess.run(
             ['squeue', '--version'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_version = 'SLURM does not appear to be installed.'
+        context['version'] = 'SLURM does not appear to be installed.'
     try:
-        slurm_config = subprocess.run(
+        context['config'] = subprocess.run(
             ['grep', '^[^#;]', '/etc/slurm-llnl/slurm.conf'], stdout=subprocess.PIPE
         ).stdout.decode('utf-8')
     except FileNotFoundError:
-        slurm_config = 'cannot get config file'
+        context['config'] = 'cannot get config file'
 
-    # Formulate the html to return (This should be made a template, eventually)
-    response = "<h2>Cluster information</h2>\n"
-    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "sinfo"
-    )
-    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        slurm_info
-    )
-    response += "<h2>Current load</h2>\n"
-    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "sinfo -o \"%10P %10e %10m %O\""
-    )
-    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        slurm_load
-    )
-    response += "<h2>Current queue</h2>\n"
-    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "squeue --array"
-    )
-    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        slurm_queue
-    )
-    response += "<h2>Configuration</h2>\n"
-    response += "<div style=\"background-color: white; color: black; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        "grep \"^[^#;]\" /etc/slurm-llnl/slurm.conf"
-    )
-    response += "<div style=\"background-color: black; color: white; \"><p>\n<pre>{}</pre></p></div>\n".format(
-        slurm_config
-    )
-    response += "<p>\nVersion: {}</p>\n".format(slurm_version)
-    response += "<p>\nDate: {}</p>\n".format(slurm_date)
-
-    return HttpResponse(response)
+    return render(request, 'slurm/index.html', context)

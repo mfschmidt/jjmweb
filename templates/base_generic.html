@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  {% block title %}<title>JJM Cluster</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/agate.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <script defer src="{% static "js/fontawesome-all.js" %}"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+
+<body>
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-sm-2">
+      {% block sidebar %}
+      <h1> </h1>
+      <ul class="sidebar-nav">
+          <li><a href="{% url 'toc' %}">Home</a></li>
+          <li><a href="{% url 'versions' %}">Software</a></li>
+          <li><a href="{% url 'how_to_slurm' %}">Using SLURM</a></li>
+          <li><a href="{% url 'how_to_venv' %}">Python Virtualenvs</a></li>
+      </ul>
+      <ul class="sidebar-nav">
+          <li><a href="{% url 'slurm' %}">SLURM status</a></li>
+      </ul>
+     {% endblock %}
+      </div>
+      <div class="col-sm-10 ">
+      {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">Last updated by Mike Schmidt May 27, 2018</span>
+    </div>
+  </footer>
+
+</body>
+</html>

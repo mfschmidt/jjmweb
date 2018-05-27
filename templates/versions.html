@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Software on jjm12</h1>
+
+  {% for key, value in keys.items %}
+    <h3>{{ key }}</h3>
+    <pre><code style="bash">{{ value }}</code></pre>
+  {% endfor %}
+
+  <p>* It is strongly recommended that you use <a href="{% url 'how_to_venv' %}">virtualenvs</a> with python. Each user can then have their own libraries and versions without sytem conflict.</p>
+
+{% endblock %}
