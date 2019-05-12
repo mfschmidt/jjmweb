@@ -24,6 +24,11 @@ urlpatterns = [
     path('versions/', views.software_versions, name="versions"),
     path('how_to_venv/', views.how_to_venv, name="how_to_venv"),
     path('how_to_slurm/', views.how_to_batch, name="how_to_slurm"),
+    path('how_to_freesurfer/', views.how_to_freesurfer, name="how_to_freesurfer"),
+    path('how_to_container/', views.how_to_container, name="how_to_container"),
+    path('how_to_fmriprep/', views.how_to_fmriprep, name="how_to_fmriprep"),
+    path('docsite/', views.docsite, name="docsite"),
+    path('containers/', views.containers, name="containers"),
     path('pygest/', include('pygest.urls')),
     path('admin/', admin.site.urls),
 ]

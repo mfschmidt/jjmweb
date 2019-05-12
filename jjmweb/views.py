@@ -66,3 +66,40 @@ def how_to_venv(request):
 
     context = {}
     return render(request, 'how_to_venv.html', context)
+
+
+def how_to_freesurfer(request):
+    """ return a rendered template with instructions for freesurfer usage. """
+
+    context = {}
+    return render(request, 'how_to_freesurfer.html', context)
+
+
+def how_to_container(request):
+    """ return a rendered template with instructions for building containers. """
+
+    context = {}
+    return render(request, 'how_to_container.html', context)
+
+
+def how_to_fmriprep(request):
+    """ return a rendered template with instructions for fmriprep usage. """
+
+    context = {}
+    return render(request, 'how_to_fmriprep.html', context)
+
+
+def docsite(request):
+    """ return a rendered template with information about this documentation site. """
+
+    context = {}
+    return render(request, 'docsite.html', context)
+
+
+def containers(request):
+    """ return a rendered template with information about containerization. """
+
+    context = {}
+    return render(request, 'containers.html', context)
+
+
