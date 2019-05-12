@@ -18,3 +18,23 @@ body {
   line-height: 1em;
   padding: 1em 1em;
 }
+
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 2px;
+}
+
+th, td {
+  padding: 4px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background-color: silver;
+}
+
+td {
+  border: 1px solid black;
+}
