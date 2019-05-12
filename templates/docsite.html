@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>JJM Documentation</h1>
+
+  <p>This django-based documentation site is hosted by apache2, with MySQL, on jjm12.</p>
+  <p>The code is hosted on github at <a href="https://github.com/mfschmidt/jjmweb">https://github.com/mfschmidt/jjmweb</a>. If jjm12 is destroyed for any reason, we can easily re-deploy this information elsewhere or on its replacement. This is all publicly available, as nothing on this site is confidential. If that changes, we'll need to remove it from github.</p>
+  <p>This site was built hastily, meaning that it follows django conventions of having a base template for consistency (<code>/var/www/django/jjmweb/templates/base_template.html</code>), but fails to meet the expectation of storing these documents in the MySQL database. Instead, they are each saved as html files (<code>/var/www/django/jjmweb/templates/</code>). Also, while it should be easily containerized, and has a script to do so, it is currently running directly via jjm12's apache2 installation. See <code>/etc/apache2/sites-available/000-default.conf</code> for configuration.</p>
+  <p>The configuration points to django code at <code>/var/www/django/jjmweb/</code>, all owned by the webrunner user. MySQL credentials are stored in webrunner's <code>~/.ssh/my.cnf</code> file.</p>
+  <p>For help or more details, email <a href="mailto://mike.schmidt@nyspi.columbia.edu">Mike Schmidt</a> and cc <a href=mailto://frank.gonzales@nyspi.columbia.edu">Frank Gonzales</a>.</p>
+
+{% endblock %}

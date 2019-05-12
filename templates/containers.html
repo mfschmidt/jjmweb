@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h2>What are containers and why do we use them?</h2>
+
+<p>TL;DR: Containers are like lightweight virtual machines. They let you package up all of the software you need for a particular task, and none of the software you don't, in one place.</p>
+
+<p>The simplest way to execute code is to have a single user own a single computer and run a single task on it. But we have many computers, with many users, running many jobs, usually at the same time. Each of these adds complexity and potential for problems. And each solution comes with trade-offs, making the whole shared cluster endeavor necessarily complex.</p>
+
+<h3>Many computers</h3>
+
+<p>The jjm cluster currently has four nodes, each with 16 processor cores and 12GB memory. You could log into any of them and use them like any other linux computer, but doing that increases complexity by making it time-consuming for each user to figure out what's available at any given time. Moreover, if another user figures out you're using resources they need, they would need to ask you when you might be done to plan their jobs. Ideally, each user would log onto the entire cluster as a unit and use whatever resources are available, without asking around.</p>
+
+<p>The jjm cluster uses SLURM to solve these problems. SLURM has a daemon running on each node in the cluster that knows how to communicate its status to the group. When you ask SLURM to run your job, from any node on the cluster, it asks all of the nodes where extra capacity exists and runs your job wherever it can find enough cores and memory to do so. Even if you're logged into a node that's maxed out at the time, you just run your job through SLURM and it will find an open node.</p>
+
+<p>The trade-off is that you have to learn how to talk to SLURM. That conversation requires that you tell SLURM what your job needs so it can mark that space as yours, keeping others out of it. The other trade-off is that we need to observe proper etiquette in using SLURM. Nothing will stop you from running heavy computation on a node and not telling SLURM about it, but that will at least slow down others' jobs and possibly even cause failures in your jobs and theirs.</p>
+
+<h3>Many users with many jobs</h3>
+
+<p>odern computers can all handle multiple users; and linux has been handling many users, even concurrently, for decades. In both theory and practice, multiple users can run multiple jobs at the same time without problems. But problems can arise when different versions of the same software are required by different users or jobs. And sometimes different software packages will require that different versions of the same libraries exist in the same place. If one user needs FSL5, and another needs FSL6, and another needs FreeSurfer 5.3 and python 3.4, but someone else has to have python 3.5, it can get complicated, or even impossible, to support these uses on the same machine. One solution would be to divide the cluster nodes into python 3.4 nodes and python 3.5 nodes, and then tell SLURM to have a special queue for python 3.4 jobs, but that gets ridiculous and hard to manage quickly.</p>
+
+<p>Another solution is to allow each user to create their own virtual machines (VMs). This virtualization is a huge part of Amazon's AWS business and works very well. We could even implement that on our cluster with OpenStack. Partially because VMs have more overhead than containers, and partially because  we don't have experience implementing OpenStack, we've decided to use containers.</p>
+
+<p>Containers are very much like virtual machines, but they use the host machine's operating system kernel. That allows container images to be smaller than VMs and faster to start. But it also means you can't run a Windows container on linux. You could, however, run your jobs in CentOS containers if you like, even though the cluster nodes run Debian.</p>
+
+<h3>Containers</h3>
+
+<p>Aside from the benefit of keeping each job's software separate, containers also allow for clean reproduction of a particular environment. For instance, if you processed neuorimages and data from a dozen participants for a manuscript, using a container, those images would all be run within an identical environment. The cluster nodes can get software updates on a regular basis, but none of that will change the environment within your container. If you need to process additional participants later, or reproduce that environment ten years from now, and the whole cluster has been replaced and upgraded, and FSL is two versions ahead, you can run that old container and have the same old software with the same old libraries and perfect reproducibility.</p>
+
+<p>Most people are talking about Docker when they talk about containers. Any software packaged for running in containers is packaged for Docker, and open software is usually uploaded to docker-hub so you can download it freely and easily and start using it. Docker is great, but has a couple of issues in the context of a cluster. It requires that Docker users have privileges that can allow them root access, which is poor policy on a shared system with many users. To address this issue, Singularity was created. You can create Singularity images from scratch, or you can tell Singularity to convert a Docker image or start with a Docker image and customize it. Then it will run the container without root privileges, making it a better choice on a shared cluster. You can still take any Docker image and convert it to Singularity.</p>
+
+<h3>Implementation</h3>
+
+<p>So for all the reasons laid out above, the ideal way to run jobs on the jjm cluster will be to put your software in a container, then ask SLURM to run it for you. We try to have pre-built containers available on jjm for common jobs. Or you can build your own on any linux-based system and copy the Singularity image file to the cluster for execution. Or you can build them on the cluster itself. More detailed information is available below, or by clicking links embedded in the document above.</p>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h2>Singularity</h2>
+
+<p>Singularity is a tool for building containers for use on multi-user computing clusters. Typically, people convert Docker containers to Singularity, as Docker is far more common.</p>
+<ul>
+  <li><a href="https://github.com/sylabs/singularity">Code at github</a></li>
+  <li><a href="https://www.sylabs.io/guides/3.0/user-guide/">Singularity docs</a></li>
+  <li><a href="https://docs.docker.com/get-started/">Docker docs</a></li>
+</ul>
+<p>Singularity 3.0.2 is installed on each node, as is docker 18.09.6. You must have special permissions to run docker, but anyone can use singularity. Read the singularity docs linked above for more, and the docker docs for a stronger understanding of what containers are doing. For simple examples, see the Singularity recipes on jjm3, at /var/lib/singularity/freesurfer or /var/lib/singularity/fmriprep. Both recipes download a docker container and convert it to Singularity; the FreeSurfer recipe copies a license file into the container, too.</p>
+<p>If you'd like a quick demonstration, download a demo container like so:</p>
+<pre><code style="bash">singularity pull docker://godlovedc/lolcow</code></pre>
+<p>You can work inside of the container like so (type exit<Enter> to leave):</p>
+<pre><code style="bash">singularity shell lolcow_latest.sif</code></pre>
+<p>Or just run the default, or code from it like so:</p>
+<pre><code style="bash">./lolcow_latest.sif
+singularity exec lolcow_latest.sif cowsay "Hi, there!"</code></pre>
+
+
+{% endblock %}

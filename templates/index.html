@@ -4,8 +4,30 @@
 
 <h1>JJM Cluster</h1>
 
-  <p>Welcome to <em>JJM</em>, a three node SLURM cluster running Debian 8.</p>
-  <p>Use the links in the left sidebar to get information about the cluster.</p>
+  <p>Welcome to <em>JJM</em>, a four node SLURM cluster running Debian 9.</p>
+  <table>
+    <tr>
+      <th>Node</th><th>IP address</th><th>Cores</th><th>Memory</th><th>Disk</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td>jjm2</td><td>10.20.193.31</td><td>16</td><td>12GB</td><td>120GB</td>
+      <td>FSL6 local<br />freesurfer 6.0.0 local</td>
+    </tr>
+    <tr>
+      <td>jjm3</td><td>10.20.193.32</td><td>16</td><td>12GB</td><td>120GB</td>
+      <td>fmriprep containerized<br />freesurfer 6.0.0 containerized<br />cpac containerized</td>
+    </tr>
+    <tr>
+      <td>jjm8</td><td>192.168.23.236</td><td>16</td><td>12GB</td><td>120GB</td>
+      <td>FSL6 local<br />freesurfer 6.0.0 local</td>
+    </tr>
+    <tr>
+      <td>jjm12</td><td>10.20.193.41</td><td>16</td><td>12GB</td><td>120GB</td>
+      <td>SLURM Control Node<br />Home directory host<br />Documentation web host<br />freesurfer 6.0.0 local</td>
+    </tr>
+  </table>
+  <p>Use the links in the left sidebar to get information about the cluster, its premises, its software, and its operation.</p>
   <p>If you need an account, or have questions, email <a href="mailto://mike.schmidt@nyspi.columbia.edu">Mike Schmidt</a> and cc <a href=mailto://frank.gonzales@nyspi.columbia.edu">Frank Gonzales</a>.</p>
 
 {% endblock %}

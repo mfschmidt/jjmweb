@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h2>FreeSurfer</h2>
+
+<p>FreeSurfer is a tool for creating cortical surface meshes from MRI, along with subcortical segmentations and cortical parcellations. It was developed at <a href="http://martinos.org/">The Martinos Center</a>.</p>
+<ul>
+  <li><a href="https://github.com/freesurfer/freesurfer">Code at github</a></li>
+  <li><a href="http://surfer.nmr.mgh.harvard.edu/fswiki/FreeSurferWiki">Docs</a></li>
+  <li><a href="https://www.zotero.org/freesurfer">Publications</a></li>
+</ul>
+<p>FreeSurfer 6.0.0 is implemented on jjm3 as a Singularity container, derived from <a href="https://hub.docker.com/r/freesurfer/freesurfer/">the official release on dockerhub</a>. The Singularity recipe is on jjm3 at <code>/var/lib/singularity/freesurfer/</code>. The executable (<code>/usr/local/freesurfer</code>) is a wrapper script that maps portions of the local filesystem into the container, and then runs freesurfer on the supplied T1 image file.</p>
+<p>To run it (sans SLURM for now):</p>
+<pre><code style="bash">freesurfer /my/T1-weighted-image.nii /my/subjects_dir subject_id --additional_options</code></pre>
+
+<h3>Non-containerized</h3>
+<p>FreeSurfer 6.0.0 has been installed on the other three nodes locally at /opt/freesurfer. After setting up your environment (which can be put into your ~/.bashrc file to be run automatically at each login):</p>
+<pre><code style="bash">export FREESURFER_HOME=/opt/freesurfer
+export SUBJECTS_DIR=~/my_subjects_directory
+source $FREESURFER_HOME/SetUpFreeSurfer.sh</code></pre>
+<p>you can run <code>recon-all</code> or other FreeSurfer executables from the command-line or create a SLURM script to run it for you.</p>
+
+{% endblock %}
