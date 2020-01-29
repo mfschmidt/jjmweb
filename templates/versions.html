@@ -2,13 +2,19 @@
 
 {% block content %}
 
-<h1>Software on jjm12</h1>
+<h1>Software on jjm7</h1>
 
-  {% for key, value in keys.items %}
-    <h3>{{ key }}</h3>
-    <pre><code style="bash">{{ value }}</code></pre>
-  {% endfor %}
+<p>The following are automatically populated in real-time when the page is refreshed.
+  Each block accurately reflects locally installed software versions as of right now.
+</p>
 
-  <p>* It is strongly recommended that you use <a href="{% url 'how_to_venv' %}">virtualenvs</a> with python. Each user can then have their own libraries and versions without sytem conflict.</p>
+{% for key, value in keys.items %}
+<h3>{{ key }}</h3>
+<pre><code class="language-bash">{{ value }}</code></pre>
+{% endfor %}
+
+<p>* It is strongly recommended that you use <a href="{% url 'how_to_venv' %}">virtualenvs</a> with python. And your
+  code should be deployed inside of a container, anyway. Each user
+  can then have their own libraries and versions without sytem conflict.</p>
 
 {% endblock %}

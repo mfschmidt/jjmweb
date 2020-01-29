@@ -8,7 +8,7 @@ From: python:3.6-stretch
 
     Typical usage:
 
-        $ singularity run --bind /home/mike/jjmweb/db:/opt/jjmweb/db jjmweb.simg
+        $ singularity run --bind /home/aa/jjmweb:/opt/jjmweb jjmweb.sif
 
 
 %labels
@@ -30,19 +30,22 @@ From: python:3.6-stretch
 %post
     apt update \
     && apt upgrade -y \
-    && apt install apache2 git -y \
-    && pip install --upgrade pip \
-    && pip install --upgrade django \
-    && rm -rf /opt/jjmweb \
-    && mkdir -p /opt/jjmweb \
-    && git clone https://github.com/mfschmidt/jjmweb.git /opt/jjmweb/
+    && apt install apache2 git sqlite python3-pip -y \
+    && pip install --upgrade django
+#    && rm -rf /opt/jjmweb \
+#    && mkdir -p /opt/jjmweb \
+#    && git clone https://github.com/mfschmidt/jjmweb.git /opt/jjmweb/
 
 
 # Run this inside the container, after setup has occurred.
-%runscript
+# %runscript
+
+%startscript
     echo "____ running jjmweb ____"
     cd /opt/jjmweb/
-    echo "    using python version $(python --version)"
-    echo "    using pip version    $(pip --version)"
-    echo "    using django version $(python -m django --version)"
-    exec /opt/jjmweb/manage.py runserver 0:8080
+    echo "    using python version $(python3 --version)"
+    echo "    using pip version    $(python3 -m pip --version)"
+    echo "    using django version $(python3 -m django --version)"
+    python3 /opt/jjmweb/manage.py makemigrations
+    python3 /opt/jjmweb/manage.py migrate
+    python3 /opt/jjmweb/manage.py runserver 0:8080

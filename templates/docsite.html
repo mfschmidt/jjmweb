@@ -4,10 +4,40 @@
 
 <h1>JJM Documentation</h1>
 
-  <p>This django-based documentation site is hosted by apache2, with MySQL, on jjm12.</p>
-  <p>The code is hosted on github at <a href="https://github.com/mfschmidt/jjmweb">https://github.com/mfschmidt/jjmweb</a>. If jjm12 is destroyed for any reason, we can easily re-deploy this information elsewhere or on its replacement. This is all publicly available, as nothing on this site is confidential. If that changes, we'll need to remove it from github.</p>
-  <p>This site was built hastily, meaning that it follows django conventions of having a base template for consistency (<code>/var/www/django/jjmweb/templates/base_template.html</code>), but fails to meet the expectation of storing these documents in the MySQL database. Instead, they are each saved as html files (<code>/var/www/django/jjmweb/templates/</code>). Also, while it should be easily containerized, and has a script to do so, it is currently running directly via jjm12's apache2 installation. See <code>/etc/apache2/sites-available/000-default.conf</code> for configuration.</p>
-  <p>The configuration points to django code at <code>/var/www/django/jjmweb/</code>, all owned by the webrunner user. MySQL credentials are stored in webrunner's <code>~/.ssh/my.cnf</code> file.</p>
-  <p>For help or more details, email <a href="mailto://mike.schmidt@nyspi.columbia.edu">Mike Schmidt</a> and cc <a href=mailto://frank.gonzales@nyspi.columbia.edu">Frank Gonzales</a>.</p>
-
-{% endblock %}
+<h2>About</h2>
+<p>This django-based documentation site is hosted by django3, with sqlite3, on jjm7.
+</p>
+<p>The code is hosted on github at <a
+    href="https://github.com/mfschmidt/jjmweb">https://github.com/mfschmidt/jjmweb</a>.
+  If jjm7 is destroyed for any reason, we can easily re-deploy this information elsewhere or on its replacement.
+  This is all publicly available, as nothing on this site is confidential. If that changes, we'll need to remove it from
+  github.
+</p>
+<p>This site was built hastily, meaning that it follows django conventions of having a base template for consistency
+  (<code>jjmweb/templates/base_template.html</code>), but fails to meet the expectation of storing these documents in
+  the database.
+  Instead, they are each saved as html files (<code>jjmweb/templates/</code>).
+</p>
+<h2>Running</h2>
+<p>This site is first downloaded from github as the <b>aa</b> user:<br />
+  <code>aa@jjm7:~$ git clone https://github.com/mfschmidt/jjmweb</code>
+</p>
+<p>It is then built as a singularity container:<br />
+  <code>aa@jjm7:~$ cd ~/jjmweb/singularity</code><br />
+  <code>aa@jjm7:~/jjmweb/Singularity$ sudo singularity build jjmweb.sif jjmweb.def</code>
+</p>
+<p>After the image is built, it can be run as a service, in the background, by invoking it as a singularity
+  instance:<br />
+  <code>aa@jjm7:~/jjmweb/Singularity$ singularity instance start --bind /home/aa/jjmweb:/opt/jjmweb jjmweb.sif jjmweb</code>
+</p>
+<h2>Management</h2>
+<p>At any time, view or stop running instances:<br />
+  <code>aa@jjm7:~$ singularity instance list</code><br />
+  <code>aa@jjm7:~$ singularity instance stop jjmweb</code>
+</p>
+<p>If you edit the templates in /home/aa/jjmweb/templates/, the site will pick them up on the fly and there is no need
+  to do anything else.
+  But they should be checked into github if possible to preserve them.
+</p>
+<p>For help or more details, email <a href="mailto://mike.schmidt@nyspi.columbia.edu">Mike Schmidt</a> and cc <a
+    href=mailto://frank.gonzales@nyspi.columbia.edu">Frank Gonzales</a>. </p> {% endblock %}
